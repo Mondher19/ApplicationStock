@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "801550739482",
+    "firebase_url": "https://nomadi-fbad2-default-rtdb.firebaseio.com",
+    "project_id": "nomadi-fbad2",
+    "storage_bucket": "nomadi-fbad2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801550739482:android:04d78fccf42077529d09a3",
+        "android_client_info": {
+          "package_name": "com.example.nomadis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801550739482-ikh2jo3o57eao9e67ihpi3kk6qh3cnn0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0BDAyue0MwgSACqmFR_Kp5j2qfFotE0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801550739482-ikh2jo3o57eao9e67ihpi3kk6qh3cnn0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801550739482:android:3fad993d2a1122d79d09a3",
+        "android_client_info": {
+          "package_name": "com.example.staff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801550739482-ikh2jo3o57eao9e67ihpi3kk6qh3cnn0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0BDAyue0MwgSACqmFR_Kp5j2qfFotE0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801550739482-ikh2jo3o57eao9e67ihpi3kk6qh3cnn0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

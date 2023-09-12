@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:layout_margin="10dp"
+
+    app:cardCornerRadius="15dp"
+    app:cardElevation="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="58dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Validationid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/robotoo"
+                android:gravity="center"
+                android:text="Validation"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="match_parent"
+                android:layout_height="113dp"
+                android:layout_weight="1"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                app:srcCompat="@drawable/vendeurv2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="182dp"
+            android:layout_height="149dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nomvendeur"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Nom vendeur"
+                android:textColor="#020202"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/stockvendeur"
+                android:layout_width="127dp"
+                android:layout_height="99dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Stock"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="107dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <ImageButton
+                android:id="@+id/validerstockvendeur"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="50dp"
+                android:backgroundTint="#005FA0D9"
+
+
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/robotoo"
+                android:paddingLeft="0dp"
+                android:src="@drawable/validatefinal"
+                android:text="Valider"
+                android:textColor="@color/colorOnPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:iconPadding="0dp"
+                app:iconSize="18sp"
+                app:iconTint="@color/colorPrimary"
+                app:iconTintMode="add" />
+
+            <ImageButton
+                android:id="@+id/modifierstockvendeur"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#000A79DC"
+
+
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/robotoo"
+                android:paddingRight="0dp"
+                android:src="@drawable/editerfinal"
+                android:text="Modifier"
+                android:textColor="@color/colorOnBackground"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                app:iconPadding="0dp"
+                app:iconSize="18sp"
+                app:iconTint="@color/colorPrimary"
+                app:iconTintMode="add" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

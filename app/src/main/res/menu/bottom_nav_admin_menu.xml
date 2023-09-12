@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/Home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title=""/>
+
+    <item
+        android:id="@+id/Stations"
+        android:icon="@drawable/ic_baseline_directions_bus_24"
+        android:title=""/>
+
+    <item
+        android:id="@+id/Transports"
+        android:icon="@drawable/ic_baseline_directions_transit_24"
+        android:title=""/>
+
+
+    <item
+        android:id="@+id/Reclamtions"
+        android:icon="@drawable/ic_baseline_report_24"
+        android:title=""/>
+
+    <item
+        android:id="@+id/Users"
+        android:icon="@drawable/ic_baseline_manage_accounts_24"
+        android:title=""/>
+
+
+
+</menu>

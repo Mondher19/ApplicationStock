@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    tools:context="com.example.staff.ProduitFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+
+
+        android:layout_width="412dp"
+        android:layout_height="733dp"
+
+        android:layout_gravity="center"
+        android:background="#EAEAEA"
+        android:gravity="center|center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
+            android:layout_width="385dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:foregroundGravity="center_vertical"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="20dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="335dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:background="#CEF8F3F3"
+                android:focusable="false"
+                app:iconifiedByDefault="false"
+
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="Search here ..." />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewstation"
+            android:layout_width="382dp"
+            android:layout_height="411dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="#EAEAEA"
+            android:elevation="10dp"
+            android:orientation="horizontal"
+            tools:itemCount="5"
+            tools:listitem="@layout/produitrsadmin">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/addproduitbtnid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="#5FA0D9"
+            android:elevation="50dp"
+            android:fontFamily="@font/robotoo"
+            android:text="Ajouter un Produit"
+            android:textColor="@color/colorOnBackground"
+            android:textColorLink="@color/colorPrimary"
+            app:cornerRadius="30dp"
+            app:icon="@drawable/ic_add"
+            app:iconTint="@color/colorOnBackground" />
+
+
+    </LinearLayout>
+
+
+</FrameLayout>
