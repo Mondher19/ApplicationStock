@@ -4,12 +4,19 @@ data class Vendeur(
     val _id: String,
     val nom: String,
     val validation: Boolean,
-    val stock: List<products>
+    val stock: List<products>,
+    val progression: Number,
+    var credit: Float,
 )
 
+
+
+
 data class products(
-    val productId: String,    // This will store the ObjectID of the related Produit. If you need the actual product data, you should use Produit class instead of String.
-    val quantite: Int
+
+    val product: String,
+    val quantite: Int,
+    var productName: String
 )
 
 data class ProductAllocationBody(

@@ -14,6 +14,8 @@ data class Client(
     val credit: Boolean,
     val qrCode: String?,
     val location: Location?,
+    val adresse:String,
+    val Mat_fiscale:String,
     val facture: List<String>
 )
 
@@ -25,4 +27,6 @@ data class Clientadd(
     val email: String,
     val credit: Boolean,
     val qrCode: String?,
+    val Mat_fiscale:String,
+    val adresse:String
 )

@@ -4,21 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="0dp"
-    android:background="#EAEAEA"
+    android:background="#5FA0D9"
     tools:context="com.example.staff.AjouterProduit">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="352dp"
+        android:layout_height="43dp"
+
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:background="#FFF"
+        android:orientation="horizontal"
+        app:cardCornerRadius="20dp">
+
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="78dp"
+            android:layout_height="48dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="0dp"
+            android:foregroundGravity="left"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:src="@drawable/ic_baseline_arrow_back_24" />
+        <TextView
+            android:id="@+id/Username"
+            android:layout_width="201dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="@font/robotoo"
+            android:gravity="center"
+            android:text="Ajouter un Produit"
+            android:textColor="#E9051C24"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
 
-
         android:layout_width="match_parent"
-        android:layout_height="677dp"
+        android:layout_height="569dp"
 
 
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="150dp"
+
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
-        android:background="#EAEAEA"
+        android:background="#5FA0D9"
         android:orientation="vertical"
         android:padding="0dp"
         android:paddingStart="10dp"
@@ -31,94 +70,71 @@
 
 
         <androidx.cardview.widget.CardView
-            android:layout_width="221dp"
-            android:layout_height="34dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="100dp"
-            android:elevation="10dp"
-            android:foregroundGravity="center_vertical|center"
-            app:cardBackgroundColor="#5FA0D9"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="10dp"
-            app:cardMaxElevation="10dp">
-
-            <TextView
-                android:id="@+id/ajouteroproduittxt"
-                android:layout_width="201dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginBottom="0dp"
-                android:fontFamily="@font/robotoo"
-                android:gravity="center"
-                android:text="Ajouter un Produit"
-                android:textColor="#E9F3F3F3"
-                android:textColorHint="#EDE9E9"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="369dp"
-            android:layout_height="485dp"
+            android:layout_width="355dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="0dp"
-            android:layout_marginTop="100dp"
-            android:elevation="30dp"
-            app:cardBackgroundColor="#EBF1F2F3"
-            app:cardCornerRadius="20dp">
+            app:cardBackgroundColor="#FFFF"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="20dp">
 
             <LinearLayout
-                android:layout_width="392dp"
-                android:layout_height="491dp"
-                android:layout_marginTop="0dp"
-                android:background="#CEEAEAEA"
+                android:layout_width="match_parent"
+                android:layout_height="485dp"
                 android:elevation="30dp"
                 android:orientation="vertical">
 
+
                 <LinearLayout
                     android:layout_width="360dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/Nomproduittxt"
-                        android:layout_width="109dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="5dp"
-                        android:elevation="2dp"
-                        android:fontFamily="@font/robotoo"
-                        android:text="Nom Produit"
-                        android:textColor="#141515"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/Nomproduitid"
-                        android:layout_width="300dp"
-                        android:layout_height="38dp"
-                        android:layout_gravity="center"
-                        android:background="#834747"
-                        android:backgroundTint="#EAE8E8"
-                        android:backgroundTintMode="add"
-                        android:ems="10"
-                        android:fontFamily="@font/robotoo"
-                        android:hint="Nom Produit"
-                        android:inputType="textPersonName"
-                        android:shadowColor="#1E1C1C"
-                        android:textColor="#65051C24"
-                        android:textColorHighlight="#131313"
-                        android:textColorHint="#77141515"
-                        android:textColorLink="#171616"
-                        android:textSize="16sp" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/Nomcomplettxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:textColorHint="#020202"
+                        app:boxBackgroundColor="#25051C24"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="#020202"
+                        app:errorEnabled="true"
+                        app:helperTextTextColor="#020202"
+                        app:hintTextColor="#020202"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/password"
+                        app:placeholderTextColor="#020202"
+                        app:prefixTextColor="#020202"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Nomproduitid"
+                            android:layout_width="319dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+
+                            android:background="@null"
+                            android:fontFamily="@font/robotoo"
+                            android:hint="       Nom du produit "
+                            android:inputType="textEmailAddress"
+                            android:password="false"
+                            android:shadowColor="#020202"
+                            android:textColor="#020202"
+                            android:textColorHighlight="#020202"
+                            android:textColorHint="#020202"
+                            android:textColorLink="#020202" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
 
@@ -126,70 +142,51 @@
                     android:layout_width="360dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/Quantitétxt"
-                        android:layout_width="106dp"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/emailadressetxt"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginBottom="5dp"
-                        android:elevation="2dp"
-                        android:fontFamily="@font/robotoo"
-                        android:text="Quantité"
-                        android:textColor="#141515"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/Quantiteid"
-                        android:layout_width="300dp"
-                        android:layout_height="37dp"
-                        android:layout_gravity="center"
-                        android:background="#EAE8E8"
-                        android:backgroundTint="#EAE8E8"
-                        android:ems="10"
+                        android:textColorHint="#020202"
+                        app:boxBackgroundColor="#1D051C24"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="#020202"
+                        app:errorEnabled="true"
+                        app:helperTextTextColor="#020202"
+                        app:hintTextColor="#020202"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/password"
+                        app:placeholderTextColor="#020202"
+                        app:prefixTextColor="#020202"
 
-                        android:fontFamily="@font/robotoo"
-                        android:hint="Quantité"
-                        android:textColor="#65051C24"
-                        android:textColorHint="#77141515"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        >
 
-                <LinearLayout
-                    android:layout_width="360dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Quantiteid"
+                            android:layout_width="319dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
 
-                    <TextView
-                        android:id="@+id/prixtxt"
-                        android:layout_width="166dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginBottom="5dp"
-                        android:elevation="2dp"
-                        android:fontFamily="@font/robotoo"
-                        android:text="Prix produit"
-                        android:textColor="#141515"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                            android:background="@null"
+                            android:fontFamily="@font/robotoo"
+                            android:hint="       Quantité du produit "
+                            android:inputType="textEmailAddress"
+                            android:password="false"
+                            android:shadowColor="#020202"
+                            android:textColor="#020202"
+                            android:textColorHighlight="#020202"
+                            android:textColorHint="#020202"
+                            android:textColorLink="#020202" />
 
-                    <EditText
-                        android:id="@+id/prixproduitid"
-                        android:layout_width="300dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:ems="10"
-                        android:fontFamily="@font/robotoo"
-                        android:hint="Prix produit"
-                        android:inputType="number"
-                        android:textColor="#65051C24"
-                        android:textColorHint="#77141515"
-                        android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
 
@@ -197,34 +194,103 @@
                     android:layout_width="360dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/descriptiontxt"
-                        android:layout_width="166dp"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/Numteltxt"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginBottom="5dp"
-                        android:elevation="2dp"
-                        android:fontFamily="@font/robotoo"
-                        android:text="Description produit"
-                        android:textColor="#141515"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/descriptionid"
-                        android:layout_width="300dp"
+                        android:textColorHint="#020202"
+                        app:boxBackgroundColor="#1D051C24"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="#020202"
+                        app:errorEnabled="true"
+                        app:helperTextTextColor="#020202"
+                        app:hintTextColor="#020202"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/password"
+                        app:placeholderTextColor="#020202"
+                        app:prefixTextColor="#020202"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/prixproduitid"
+                            android:layout_width="319dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+
+                            android:background="@null"
+                            android:fontFamily="@font/robotoo"
+                            android:hint="       Prix unitaire "
+                            android:inputType="textEmailAddress"
+                            android:password="false"
+                            android:shadowColor="#020202"
+                            android:textColor="#020202"
+                            android:textColorHighlight="#020202"
+                            android:textColorHint="#020202"
+                            android:textColorLink="#020202" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="360dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/texttt"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:ems="10"
-                        android:fontFamily="@font/robotoo"
-                        android:hint="Description produit"
-                        android:inputType="number"
-                        android:textColor="#65051C24"
-                        android:textColorHint="#77141515"
-                        android:textSize="16sp" />
+
+                        android:textColorHint="#020202"
+                        app:boxBackgroundColor="#1D051C24"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="#020202"
+                        app:errorEnabled="true"
+                        app:helperTextTextColor="#020202"
+                        app:hintTextColor="#020202"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/password"
+                        app:placeholderTextColor="#020202"
+                        app:prefixTextColor="#020202"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/descriptionid"
+                            android:layout_width="319dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+
+                            android:background="@null"
+                            android:fontFamily="@font/robotoo"
+                            android:hint="       Description du produit "
+                            android:inputType="textEmailAddress"
+                            android:password="false"
+                            android:shadowColor="#020202"
+                            android:textColor="#020202"
+                            android:textColorHighlight="#020202"
+                            android:textColorHint="#020202"
+                            android:textColorLink="#020202" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
 
@@ -234,14 +300,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="20dp"
 
-                    android:backgroundTint="#5FA0D9"
+                    android:backgroundTint="#99020C20"
                     android:elevation="20dp"
                     android:fontFamily="@font/robotoo"
                     android:text="Ajouter"
                     android:textColor="@color/colorOnSecondary"
-                    android:textColorHint="#5FA0D9"
+                    android:textColorHint="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:icon="@drawable/ic_add"

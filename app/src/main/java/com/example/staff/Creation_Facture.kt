@@ -12,8 +12,10 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -46,6 +48,7 @@ class Creation_Facture : Fragment() {
     private lateinit var quantityEditText: EditText
     private val selectedProducts = mutableListOf<Pair<String, Int>>()  // List to hold product ID and quantity pairs
     private lateinit var subtractProductBtn: ImageButton
+    private lateinit var Switcherfree: Switch
 
 
 
@@ -56,6 +59,20 @@ class Creation_Facture : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_creation__facture, container, false)
+
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
+        if (backtbtn != null) {
+            backtbtn.setOnClickListener {
+                val fragment = FactureVendeurFragment()
+                val bundle = Bundle()
+                fragment.arguments = bundle
+                val fragmentManager = requireActivity().supportFragmentManager
+                fragmentManager.beginTransaction()
+                    .replace(R.id.switchfragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
 
         initializeViews(view)
         populateClientSpinner()
@@ -145,6 +162,7 @@ class Creation_Facture : Fragment() {
         productListContainer = view.findViewById(R.id.productListContainer)
         addProductBtn = view.findViewById(R.id.addProductBtn)
         submitBtn = view.findViewById(R.id.submitBtn)
+        Switcherfree = view.findViewById(R.id.switchgratuit)
         productSpinner = view.findViewById(R.id.productSpinner)
         quantityEditText = view.findViewById(R.id.quantityEditText)
         subtractProductBtn = view.findViewById(R.id.subtractProductBtn)
@@ -250,33 +268,53 @@ class Creation_Facture : Fragment() {
                         clientId = selectedClientName._id,
                         products = selectedProducts.map { ProductAllocation(it.first, it.second) },
                         credit = true, // Update this as needed, perhaps via a checkbox?
+                        allowFreeProduct = Switcherfree.isChecked,
                         nomVendeur = userfullnamefromshared ?: "Unknown"  // Using the value from shared preferences
                     )
                 }
 
                 if (factureToSubmit != null) {
-                    apiHelper.addFactureToApi(factureToSubmit) { result ->
+                    apiHelper.addFactureToApi(factureToSubmit) { result, message ->
                         when (result) {
-                            is Result.Success<*> -> {
-                                context?.let { context ->
-                                    AlertDialog.Builder(context).apply {
+                            is ApiHelper.Result.Success<*> -> {
+                                // Client added successfully
+                                context?.let {
+                                    AlertDialog.Builder(it).apply {
                                         setTitle("Confirmation")
-                                        setMessage("Facture créée avec succès!")
-                                        setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                                        setMessage("Facture ajouté avec succès.")
+                                        setPositiveButton("OK") { dialog, _ ->
+                                            dialog.dismiss()
+
+                                            val transaction = parentFragmentManager.beginTransaction()
+                                            transaction.replace(R.id.switchfragment, FactureVendeurFragment())
+                                            transaction.addToBackStack(null)
+                                            transaction.commit()
+                                        }
                                         show()
                                     }
                                 }
                                 productListContainer.removeAllViews()
                                 selectedProducts.clear()
                             }
-
-
-                            else -> {}
+                            is ApiHelper.Result.Error -> {
+                                // There was an error
+                                context?.let {
+                                    AlertDialog.Builder(it).apply {
+                                        setTitle("Erreur")
+                                        setMessage(message)  // Here is your API error message
+                                        setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                                        show()
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+
+                productListContainer.removeAllViews()  // Clear the list immediately after the button is clicked
+                selectedProducts.clear()  // Clear the selected products list immediately after the button is clicked
             } else {
-                Toast.makeText(context, "Please select a client and add products!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Veuillez  ajouter des produits !", Toast.LENGTH_LONG).show()
             }
         }
     }

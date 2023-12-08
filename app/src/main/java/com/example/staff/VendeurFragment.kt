@@ -1,12 +1,14 @@
 package com.example.staff
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -18,6 +20,7 @@ import com.example.staff.adapters.ClientAdapter
 import com.example.staff.adapters.VendeurAdapter
 import com.example.staff.model.Vendeur
 import com.example.staff.service.ApiHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,12 +58,37 @@ class VendeurFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_vendeur, container, false)
 
 
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
+        val sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
+        val userRoleFromShared = sharedPreferences.getString("role", null)
+
+        val backBtn: ImageView = view.findViewById(R.id.imageView12)
+        if (backBtn != null) {
+            backBtn.setOnClickListener {
+                val fragment: Fragment
+                if (userRoleFromShared == "Magazinier") {
+                    fragment = EspaceMagazinierFragment()
+                } else if ( userRoleFromShared == "Superviseur")
+                    fragment = EspaceSuperviseurFragment()
+                    else {
+                    fragment = EspaceVendeurFragment()
+                }
+
+                val bundle = Bundle()
+                fragment.arguments = bundle
+                val fragmentManager = requireActivity().supportFragmentManager
+                fragmentManager.beginTransaction()
+                    .replace(R.id.switchfragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
 
 
 
 
+        val Addbtn: FloatingActionButton = view.findViewById(R.id.affecterunstockbtn)
 
-        val Addbtn: Button = view.findViewById(R.id.affecterunstockbtn)
 
         Addbtn.setOnClickListener {
             val fragment = Affectation_Stock_Vendeur()
@@ -73,6 +101,8 @@ class VendeurFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+
 
         // a changer
 

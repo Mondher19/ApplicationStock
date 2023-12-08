@@ -1,8 +1,13 @@
 package com.example.staff.adapters
 
+import android.Manifest
 import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -18,6 +23,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.registerReceiver
 import androidx.recyclerview.widget.RecyclerView
 import com.example.staff.ModifierProduit
 import com.example.staff.R
@@ -25,6 +35,8 @@ import com.example.staff.model.Facture
 import com.example.staff.model.Journal
 import com.example.staff.model.Produit
 import com.example.staff.service.ApiHelper
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 
 
 class FactureAdapter(private var mList: List<Journal>) : RecyclerView.Adapter<FactureAdapter.ViewHolder>() {
@@ -72,31 +84,34 @@ class FactureAdapter(private var mList: List<Journal>) : RecyclerView.Adapter<Fa
                 when (menuItem.itemId) {
                     R.id.action_modify -> {
                         Log.d("DownloadPDF", "Starting download process...")
+                        val dynamicFileName = factureItem.invoicePDF ?: ""
 
-                        val baseUrl = "http://10.0.2.2:9090/public/" // Note the trailing slash
-                        val relativePath = factureItem.invoicePDF ?: ""
+                        if (dynamicFileName.isNotEmpty()) {
+                            // Using Firebase Storage to get the download URL
+                            val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://nomadi-fbad2.appspot.com/")
+                            val pdfRef = storageRef.child(dynamicFileName)
 
-                        // Log the individual components for extra clarity
-                        Log.d("DownloadPDF", "Base URL: $baseUrl")
-                        Log.d("DownloadPDF", "Relative Path from backend: $relativePath")
+                            pdfRef.downloadUrl.addOnSuccessListener { uri ->
+                                // Now we have an HTTP URL, suitable for DownloadManager
+                                val downloadManager = view.context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                                val request = DownloadManager.Request(uri)
+                                    .setTitle(factureItem.invoicePDF)
+                                    .setDescription("Downloading")
+                                    .setMimeType("application/pdf") // Optional: Set MIME type if known
+                                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, factureItem.invoicePDF)
+                                    .setAllowedOverMetered(true)
+                                    .setAllowedOverRoaming(true)
 
-                        // Concatenate the URLs
-                        val completeUrl = baseUrl + relativePath.trimStart('/')
-
-                        Log.d("DownloadPDF", "Complete URL: $completeUrl")
-
-                        val uri = Uri.parse(completeUrl)
-
-                        if (uri.scheme == null || (!uri.scheme!!.equals("http", ignoreCase = true) && !uri.scheme!!.equals("https", ignoreCase = true))) {
-                            Log.e("DownloadPDF", "Invalid URL scheme. Only HTTP/HTTPS supported.")
-                        } else {
-                            Log.d("DownloadPDF", "URI scheme is valid: ${uri.scheme}")
-                            if (downloadListener != null) {
-                                Log.d("DownloadPDF", "Download listener is initialized.")
-                                downloadListener?.invoke(uri)
-                            } else {
-                                Log.e("DownloadPDF", "Download listener is not initialized.")
+                                // Start the download
+                                val downloadID = downloadManager.enqueue(request)
+                            }.addOnFailureListener {
+                                // Handle any errors here
+                                Log.e("DownloadPDF", "Download failed: ${it.message}")
                             }
+                        } else {
+                            Log.e("DownloadPDF", "File name is empty. Cannot download.")
+                            // TODO: Provide user feedback that the file name is empty.
                         }
                         true
                     }

@@ -23,7 +23,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/switchfragment"
-                android:name="com.example.staff.MapsFragment"
+                android:name="com.example.staff.EspaceVendeurFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -61,7 +61,7 @@
                     android:foregroundGravity="bottom|center"
                     android:hapticFeedbackEnabled="false"
                     android:minHeight="50dp"
-                    app:backgroundTint="#EAEAEA"
+                    app:backgroundTint="#FFFFFF"
                     app:elevation="20dp"
                     app:itemIconTint="#5FA0D9"
                     app:itemRippleColor="#5FA0D9"

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#EAEAEA"
 
+    android:background="#EAEAEA"
     tools:context="com.example.staff.FactureVendeurFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,7 +13,7 @@
 
 
         android:layout_width="412dp"
-        android:layout_height="719dp"
+        android:layout_height="733dp"
 
         android:layout_gravity="center"
         android:background="#EAEAEA"
@@ -24,31 +24,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="352dp"
+            android:layout_height="43dp"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="#FFF"
+            android:orientation="horizontal"
+            app:cardCornerRadius="20dp">
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="78dp"
+                android:layout_height="48dp"
+                android:layout_gravity="left"
+                android:layout_marginTop="0dp"
+                android:foregroundGravity="left"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
+            <TextView
+                android:id="@+id/Username"
+                android:layout_width="201dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:fontFamily="@font/robotoo"
+                android:gravity="center"
+                android:text="Liste Des Factures"
+                android:textColor="#E9051C24"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </androidx.cardview.widget.CardView>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
-            android:layout_width="385dp"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="0dp"
+            android:layout_marginBottom="30dp"
             android:foregroundGravity="center_vertical"
             app:cardCornerRadius="15dp"
             app:cardElevation="20dp"
-            app:cardUseCompatPadding="true"
+            app:cardUseCompatPadding="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchView"
-                android:layout_width="335dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:background="#CEF8F3F3"
-                android:focusable="false"
-                app:iconifiedByDefault="false"
 
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:focusable="false"
+
+                app:iconifiedByDefault="false"
                 app:queryBackground="@android:color/transparent"
                 app:queryHint="Search here ..." />
 
@@ -60,27 +101,30 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:entries="@array/date_filter_options"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="20dp" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerviewfacturev1"
+        <RelativeLayout
             android:layout_width="382dp"
-            android:layout_height="516dp"
+            android:layout_height="551dp"
             android:layout_gravity="center"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp"
             android:background="#EAEAEA"
-            android:elevation="10dp"
-            android:orientation="horizontal"
-            tools:itemCount="5"
-            tools:listitem="@layout/facturersadmin">
+            android:gravity="center">
 
-        </androidx.recyclerview.widget.RecyclerView>
+
+            <!-- RecyclerView definition stays the same -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewfacturev1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#EAEAEA"
+                android:elevation="0dp"></androidx.recyclerview.widget.RecyclerView>
+
+            <!-- FloatingActionButton definition stays the same, but with adjusted elevation -->
+
+        </RelativeLayout>
+        <!-- Your other UI components go here -->
 
 
     </LinearLayout>

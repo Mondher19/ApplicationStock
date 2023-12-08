@@ -11,6 +11,7 @@ import com.example.staff.model.Vendeur
 import com.example.staff.model.addFacture
 import com.example.staff.model.products
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface apientities {
@@ -32,6 +33,9 @@ interface apientities {
 
     @GET("/produit/journals/{vendorName}")
     fun getJournalByVendorName(@Path("vendorName") vendorName: String): Call<List<Journal>>
+
+    @GET("/vendeur/vendeur/{vendorName}")
+    fun getvendeurByVendorName(@Path("vendorName") vendorName: String): Call<List<Vendeur>>
 
     @GET("/vendeur/vendeurs")
     fun getvendeurs(): Call<List<Vendeur>>
@@ -55,7 +59,7 @@ interface apientities {
     fun updateclient(@Path("id") type: String,@Body clientadd: Clientadd): Call<Clientadd>
 
     @PUT("/produit/vendeurs/{id}/produits")
-    fun allocateproducts(@Path("id") type: String, @Body productAllocations: ProductAllocationBody): Call<List<products>>
+    suspend fun allocateproducts(@Path("id") type: String, @Body productAllocations: ProductAllocationBody): Response<List<products>>
 
 
     @GET("/produit/produits")
@@ -67,7 +71,7 @@ interface apientities {
 
 
     @POST("/produit/produits")
-    fun addproduit(@Body produitadd: Produitadd): Call<Produitadd>
+    suspend fun addproduit(@Body produitadd: Produitadd): Response<Produitadd>
 
     @POST("/facture/factures")
     fun addfacture(@Body facture: addFacture): Call<addFacture>
@@ -75,5 +79,10 @@ interface apientities {
     @PUT("/produit/produits/{id}")
     fun updateproduit(@Path("id") type: String,@Body produitadd: Produitadd): Call<Produitadd>
 
+    @PATCH("/vendeur/vendeurs/{id}")
+    fun updateVendeur(@Path("id") id: String, @Body updateData: Map<String, Float>): Call<Vendeur>
+
+    @PATCH("/vendeur/vendeurs0/{id}")
+    fun resetVendeurCredit(@Path("id") id: String): Call<Vendeur>
 
 }

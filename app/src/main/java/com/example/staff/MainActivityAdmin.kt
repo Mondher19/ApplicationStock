@@ -32,7 +32,7 @@ class MainActivityAdmin : AppCompatActivity() {
 
 
                 R.id.home -> {
-                    changeFragment(ProduitFragment(), "ClientsFragment")
+                    changeFragment(EspaceSuperviseurFragment(), "ClientsFragment")
                     return@setOnNavigationItemSelectedListener true
                 }
 

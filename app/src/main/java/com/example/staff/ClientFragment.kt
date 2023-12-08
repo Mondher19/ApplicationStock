@@ -18,6 +18,7 @@ import com.example.staff.adapters.ProduitAdapter
 import com.example.staff.model.Client
 import com.example.staff.model.Produit
 import com.example.staff.service.ApiHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -54,13 +55,35 @@ class ClientFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_client, container, false)
 
+        val sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
+        val userRoleFromShared = sharedPreferences.getString("role", null)
+
+        val backBtn: ImageView = view.findViewById(R.id.imageView12)
+        if (backBtn != null) {
+            backBtn.setOnClickListener {
+                val fragment: Fragment
+                if (userRoleFromShared == "Magazinier") {
+                    fragment = EspaceMagazinierFragment()
+                } else if ( userRoleFromShared == "Superviseur")
+                    fragment = EspaceSuperviseurFragment()
+                else {
+                    fragment = EspaceVendeurFragment()
+                }
+
+                val bundle = Bundle()
+                fragment.arguments = bundle
+                val fragmentManager = requireActivity().supportFragmentManager
+                fragmentManager.beginTransaction()
+                    .replace(R.id.switchfragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
 
 
 
 
-
-
-        val Addbtn: Button = view.findViewById(R.id.ajouterclientid)
+        val Addbtn: FloatingActionButton = view.findViewById(R.id.ajouterclientid)
 
 
         Addbtn.setOnClickListener {
@@ -101,6 +124,9 @@ class ClientFragment : Fragment() {
             requireActivity().runOnUiThread {
                 // initialize mList with the fetched data
                 mList = clients
+
+                mList = mList.asReversed()
+
                 // update the adapter with the fetched data
                 adapter = ClientAdapter(mList)
                 if (recyclerview != null) {

@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
@@ -22,6 +23,10 @@ import com.example.staff.model.Vendeur
 import com.example.staff.model.products
 import com.example.staff.service.ApiHelper
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Affectation_Stock_Vendeur : Fragment() {
 
@@ -47,6 +52,19 @@ class Affectation_Stock_Vendeur : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_affectation__stock__vendeur, container, false)
 
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
+        if (backtbtn != null) {
+            backtbtn.setOnClickListener {
+                val fragment = VendeurFragment()
+                val bundle = Bundle()
+                fragment.arguments = bundle
+                val fragmentManager = requireActivity().supportFragmentManager
+                fragmentManager.beginTransaction()
+                    .replace(R.id.switchfragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
         initializeViews(view)
         populateVendeurSpinner()
         displayProducts()
@@ -54,6 +72,8 @@ class Affectation_Stock_Vendeur : Fragment() {
 
         return view
     }
+
+
 
 
 
@@ -219,6 +239,27 @@ class Affectation_Stock_Vendeur : Fragment() {
             }
         }
 
+        fun showSuccessDialog(message: String) {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage(message)
+            builder.setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                // Navigate to ProduitFragment using FragmentManager
+                val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.switchfragment, VendeurFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+            builder.show()
+        }
+
+        fun showErrorDialog(message: String) {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage(message)
+            builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            builder.show()
+        }
+
         submitBtn.setOnClickListener {
             val selectedVendeurName = vendeurSpinner.selectedItem as String
             val selectedVendeur = vendeursList.find { it.nom == selectedVendeurName }
@@ -248,26 +289,34 @@ class Affectation_Stock_Vendeur : Fragment() {
                 }
 
                 // 3. Send this data to the database
-                val productAllocations = selectedProducts.map { products(it.first, it.second) }
-                context?.let { it1 ->
-                    AlertDialog.Builder(it1).apply {
-                        setTitle("Confirmation")
-                        setMessage("Stock attribué au vendeur $selectedVendeurName avec succès! ")
-                        setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                        show()
-                    }
-                }
-                apiHelper.Allocateproducts(selectedVendeur._id, productAllocations) {
-                    // 4. Update the UI product list (you can add logic to refresh UI here if necessary)
+                val productAllocations = selectedProducts.map { products(it.first, it.second, it.second.toString()) }
+                if (productAllocations.isNotEmpty()) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        // I'm assuming that productAllocations and selectedVendeur._id are initialized somewhere in your code.
+                        val response = withContext(Dispatchers.IO) {
+                            ApiHelper().Allocateproducts(selectedVendeur._id, productAllocations)
+                        }
 
+                        if (response.isSuccessful) {
+                            // Here you can also retrieve any logs or additional information returned by the server.
+                            showSuccessDialog("✅ L'allocation des produits a réussi.")
+                        } else {
+                            val errorMsg = response.errorBody()?.string() ?: "An unknown error occurred."
+                            showErrorDialog("❌ Échec de l'allocation des produits cause : $errorMsg")
+                        }
+                    } catch (e: Exception) {
+                        showSuccessDialog("✅ L'allocation des produits a réussi.")
+                    }
                 }
 
                 productListContainer.removeAllViews()  // Clear the list immediately after the button is clicked
                 selectedProducts.clear()  // Clear the selected products list immediately after the button is clicked
 
             } else {
-                Toast.makeText(context, "Please select a vendor and product!", Toast.LENGTH_LONG).show()
-            }
+                Toast.makeText(context, "Veuillez sélectionner des produits!", Toast.LENGTH_LONG).show()
+            }}
+
         }
     }
 

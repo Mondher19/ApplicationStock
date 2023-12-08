@@ -31,7 +31,9 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.app.ActivityCompat.startIntentSenderForResult
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
@@ -65,6 +67,8 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
     companion object {
         const val LOCATION_REQUEST_CODE = 101
+        var isWorkEnqueued = false
+
     }
 
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001 // You can choose any value you prefer
@@ -75,12 +79,17 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     private val SendLocation = object : Runnable {
         override fun run() {
 
-            handler.postDelayed(this, 20000) // 5 minutes in milliseconds
         }
     }
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AndroidThreeTen.init(requireContext())
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+    }
 
 
 
@@ -89,6 +98,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
         private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(appContext)
         private val database = FirebaseDatabase.getInstance().reference
+        private val sharedPreferences = appContext.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
         override fun doWork(): Result {
             // Check permission
@@ -97,7 +107,6 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-
                 // Get the last known location and update Firebase
                 fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                     if (location != null) {
@@ -111,16 +120,16 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         }
 
         private fun saveLocationToFirebase(location: LatLng) {
+
             val userId = FirebaseAuth.getInstance().currentUser?.uid
             if (userId == null) {
                 Log.e("SendLocationWorker", "User is not authenticated!")
                 return
             }
 
-
             val locationData = mapOf(
-                "latitude" to location.latitude,
-                "longitude" to location.longitude
+                "latitude" to location.latitude,  // Using Double type
+                "longitude" to location.longitude  // Using Double type
             )
 
             FirebaseFirestore.getInstance().collection("Users").document(userId).update(locationData)
@@ -131,6 +140,35 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
                     Log.e("SendLocationWorker", "Failed to update location: ", e)
                 }
         }
+    }
+
+
+
+
+
+    private fun saveLocationToFirebase(location: LatLng) {
+
+        // Update SharedPreferences
+
+
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Log.e("SendLocationWorker", "User is not authenticated!")
+            return
+        }
+
+        val locationData = mapOf(
+            "latitude" to location.latitude,  // Using Double type
+            "longitude" to location.longitude  // Using Double type
+        )
+
+        FirebaseFirestore.getInstance().collection("Users").document(userId).update(locationData)
+            .addOnSuccessListener {
+                Log.d("SendLocationWorker", "Location updated successfully!")
+            }
+            .addOnFailureListener { e ->
+                Log.e("SendLocationWorker", "Failed to update location: ", e)
+            }
     }
 
 
@@ -157,7 +195,6 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
                     // Save the location to Firebase
                     saveLocationToFirebase(myLocation)
-
                     googleMap.addMarker(MarkerOptions().position(myLocation).title("My Location").icon(bitmapDescriptor))
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 12.0f))
                     Log.d("MapsFragment", "My Location: $myLocation")
@@ -175,28 +212,6 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
 
 
-    private fun saveLocationToFirebase(location: LatLng) {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        if (userId == null) {
-            Log.e("MapsFragment", "User is not authenticated!")
-            return
-        }
-
-        // Create a new location object to store in Firebase
-        val locationData = mapOf(
-            "latitude" to location.latitude,
-            "longitude" to location.longitude
-        )
-
-        // Update the location under the user's ID in the 'users' collection
-        firestore.collection("Users").document(userId).update(locationData)
-            .addOnSuccessListener {
-                Log.d("MapsFragment", "Location updated successfully!")
-            }
-            .addOnFailureListener { e ->
-                Log.e("MapsFragment", "Failed to update location: ", e)
-            }
-    }
 
 
 
@@ -261,12 +276,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         googleMap.addMarker(markerOptions)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidThreeTen.init(requireContext())
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -283,24 +293,21 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         mapFragment?.getMapAsync(callback)
 
 
-        val workRequest = PeriodicWorkRequestBuilder<SendLocationWorker>(15, TimeUnit.MINUTES)
-            .build()
-        WorkManager.getInstance(requireContext()).enqueue(workRequest)
+            val workRequest = PeriodicWorkRequestBuilder<SendLocationWorker>(15, TimeUnit.MINUTES)
+                .build()
 
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
-        val transportid = sharedPreferences.getString("transportid", null)
+            WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+                "SendLocationWork",
+                ExistingPeriodicWorkPolicy.KEEP,
+                workRequest
+            )
 
-        val stationtype = sharedPreferences.getString("stationtype", null)
-        // Call fetchLocationsFromApi() when the fragment is created
 
     }
 
     override fun onPause() {
         super.onPause()
 
-        val workRequest = PeriodicWorkRequestBuilder<SendLocationWorker>(15, TimeUnit.MINUTES)
-            .build()
-        WorkManager.getInstance(requireContext()).enqueue(workRequest)
 
     }
 

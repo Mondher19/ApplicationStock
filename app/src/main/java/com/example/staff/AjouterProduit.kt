@@ -1,25 +1,29 @@
 package com.example.staff
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Spinner
-import androidx.activity.result.contract.ActivityResultContracts
-import com.example.staff.model.Clientadd
-import com.example.staff.model.Location
+import android.widget.Toast
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.staff.model.Produitadd
 import com.example.staff.service.ApiHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,6 +67,20 @@ class AjouterProduit : Fragment() {
         val quantiteproduit: EditText = view.findViewById(R.id.Quantiteid)
         val description: EditText = view.findViewById(R.id.descriptionid)
 
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
+        if (backtbtn != null) {
+            backtbtn.setOnClickListener {
+                val fragment = ProduitFragment()
+                val bundle = Bundle()
+                fragment.arguments = bundle
+                val fragmentManager = requireActivity().supportFragmentManager
+                fragmentManager.beginTransaction()
+                    .replace(R.id.switchfragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
 
 
 
@@ -77,26 +95,87 @@ class AjouterProduit : Fragment() {
 
         addbtn.setOnClickListener {
 
+            // Validation for empty fields
 
-
-
-            val newproduit = Produitadd(
-                nom = nomproduit.text.toString(),
-                prix = prixProduit.text.toString(),
-                description = description.text.toString(),
-                stock = quantiteproduit.text.toString(), //
-
-            )
-
-            ApiHelper().addproduitToApi(newproduit) {
-                val message = "Produit Ajouter !!"
-                val builder = AlertDialog.Builder(context)
+            fun showSuccessDialog(message: String) {
+                val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage(message)
                 builder.setPositiveButton("OK") { dialog, _ ->
                     dialog.dismiss()
+                    // Navigate to ProduitFragment using FragmentManager
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.switchfragment, ProduitFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
                 }
                 builder.show()
             }
+
+            fun showErrorDialog(message: String) {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage(message)
+                builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                builder.show()
+            }
+            val nom = nomproduit.text.toString().trim()
+            val prix = prixProduit.text.toString().trim()
+            val descriptionText = description.text.toString()
+            val stock = quantiteproduit.text.toString().trim()
+
+            // Individual Validation checks
+            if (nom.isBlank()) {
+                showErrorDialog("Le nom du produit est obligatoire.")
+                return@setOnClickListener
+            }
+
+            if (prix.isBlank()) {
+                showErrorDialog("Le prix du produit est obligatoire.")
+                return@setOnClickListener
+            }
+
+            try {
+                prix.toDouble()
+            } catch (e: NumberFormatException) {
+                showErrorDialog("Le prix doit être un nombre valide.")
+                return@setOnClickListener
+            }
+
+            if (description.text.toString().trim().isEmpty()) {
+                description.setText("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has" +
+                        " been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley")
+                return@setOnClickListener
+            }
+
+
+
+
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val newproduit = Produitadd(
+                        nom = nomproduit.text.toString(),
+                        prix = prixProduit.text.toString(),
+                        description = description.text.toString(),
+                        stock = quantiteproduit.text.toString()
+                    )
+                    val response = withContext(Dispatchers.IO) {
+                        ApiHelper().addproduitToApi(newproduit)
+                    }
+
+                    if (response?.isSuccessful == true) {
+                        showSuccessDialog("✅ Le produit a été ajouté avec succès.")
+                    } else {
+                        val errorMsg = response?.errorBody()?.string() ?: "Une erreur inconnue est survenue."
+                        showErrorDialog("❌ Échec de l'ajout du produit ")
+                    }
+                } catch (e: Exception) {
+                    showErrorDialog("❌ Échec de l'ajout du produit ")
+                }
+            }
+
+
+
+
+
         }
 
 
@@ -105,6 +184,12 @@ class AjouterProduit : Fragment() {
     }
 
 
+
+
+    interface ApiCallback {
+        fun onSuccess()
+        fun onFailure(error: String)
+    }
 
     companion object {
         /**

@@ -56,7 +56,7 @@ class ModifierProduit : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_modifier_produit, container, false)
 
-        val backtbtn: ImageView = view.findViewById(R.id.backtn9)
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
 
         val addbtn: Button = view.findViewById(R.id.Modifierproduitbtn)
         val nomproduit: EditText = view.findViewById(R.id.Nomproduitid)

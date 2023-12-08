@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="190dp"
     android:layout_margin="10dp"
 
     app:cardCornerRadius="15dp"
@@ -15,7 +15,7 @@
         android:padding="5dp">
 
         <LinearLayout
-            android:layout_width="58dp"
+            android:layout_width="136dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -38,19 +38,19 @@
                 android:layout_weight="1"
                 android:paddingTop="30dp"
                 android:paddingBottom="30dp"
-                app:srcCompat="@drawable/vendeurv2" />
+                app:srcCompat="@drawable/vendeurv10" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="182dp"
-            android:layout_height="149dp"
+            android:layout_width="153dp"
+            android:layout_height="190dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/nomvendeur"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_marginStart="20dp"
+                android:layout_width="143dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:text="Nom vendeur"
@@ -61,21 +61,52 @@
 
             <TextView
                 android:id="@+id/stockvendeur"
-                android:layout_width="127dp"
-                android:layout_height="99dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="15dp"
+                android:layout_width="143dp"
+                android:layout_height="79dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:scrollbars="vertical"
                 android:text="Stock"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressBackgroundTint="#D3D3D3"
+                    android:progressTint="#00FF00" />
+
+                <TextView
+                    android:id="@+id/percentageTextView"
+                    android:layout_width="42dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:fontFamily="@font/robotoo"
+                    android:text="0%"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="107dp"
+            android:layout_width="101dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -83,15 +114,17 @@
             <ImageButton
                 android:id="@+id/validerstockvendeur"
                 android:layout_width="wrap_content"
-                android:layout_height="130dp"
+                android:layout_height="wrap_content"
 
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="35dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
-                android:layout_marginRight="50dp"
+
+
+                android:layout_marginRight="0dp"
                 android:backgroundTint="#005FA0D9"
-
-
                 android:focusableInTouchMode="false"
                 android:fontFamily="@font/robotoo"
                 android:paddingLeft="0dp"
@@ -105,28 +138,7 @@
                 app:iconTint="@color/colorPrimary"
                 app:iconTintMode="add" />
 
-            <ImageButton
-                android:id="@+id/modifierstockvendeur"
-                android:layout_width="wrap_content"
-                android:layout_height="130dp"
 
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="#000A79DC"
-
-
-                android:focusableInTouchMode="false"
-                android:fontFamily="@font/robotoo"
-                android:paddingRight="0dp"
-                android:src="@drawable/editerfinal"
-                android:text="Modifier"
-                android:textColor="@color/colorOnBackground"
-                android:textSize="8sp"
-                android:textStyle="bold"
-                app:iconPadding="0dp"
-                app:iconSize="18sp"
-                app:iconTint="@color/colorPrimary"
-                app:iconTintMode="add" />
 
 
         </LinearLayout>

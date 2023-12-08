@@ -53,18 +53,18 @@ public class Login : AppCompatActivity() {
             val password = editTextPassword.text.toString()
 
             if (TextUtils.isEmpty(email)) {
-                Toast.makeText(this, "Enter your email", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Veuillez entrer votre adresse e-maill !", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             // Check if the entered email is valid
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Enter a valid email address", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Veuillez entrer une adresse e-mail valide clie!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(this, "Enter your password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Veuillez entrer votre mot de passe !", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -77,7 +77,7 @@ public class Login : AppCompatActivity() {
 
 
                     } else {
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Connexion échouée: veuillez vérifier votre adresse email et mot de passe", Toast.LENGTH_SHORT).show()
 
                     }
                 }
@@ -98,29 +98,37 @@ public class Login : AppCompatActivity() {
         if (userRef != null) {
             userRef.get().addOnSuccessListener { documentSnapshot ->
 
-                if(documentSnapshot.exists()) {
+                if (documentSnapshot.exists()) {
 
-                    // Vérifier si admin
-                    val isAdmin = documentSnapshot.getBoolean("role") ?: false
+                    // Get the document ID
+                    val documentId = documentSnapshot.id
 
-                    if(isAdmin) {
+                    // Get role information
+                    val role = documentSnapshot.getString("role") ?: ""
 
-                       val intent = Intent(this, MainActivity::class.java)
-                        val sharedPreferences = getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
+                    // Storing values into SharedPreferences
+                    val sharedPreferences = getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
+                    with(sharedPreferences.edit()) {
+                        putString("user_id", documentId)
+                        putString("name", documentSnapshot.getString("name").toString())
+                        putString("role", role)
+                        val latitude = documentSnapshot.getDouble("latitude") ?: 0.0
+                        val longitude = documentSnapshot.getDouble("longitude") ?: 0.0
 
-                        sharedPreferences.edit().putString("name", documentSnapshot.getString("name").toString()).apply()
-                        startActivity(intent)
-
-                    } else {
-
-                        val sharedPreferences = getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
-                        sharedPreferences.edit().putString("name", documentSnapshot.getString("name").toString()).apply()
-
-                        val intent = Intent(this, MainActivityAdmin::class.java)
-                        startActivity(intent)
+                        putFloat("latitude", latitude.toFloat())
+                        putFloat("longitude", longitude.toFloat())
+                        apply()
                     }
 
-                } else {
+                    // Choose the appropriate activity based on the user role
+                    val intent = when (role) {
+                        "Magazinier" -> Intent(this, MainActivityMagazinier::class.java)
+                        "Superviseur" -> Intent(this, MainActivityAdmin::class.java)
+                        "Vendeur" -> Intent(this, MainActivity::class.java)
+                        else -> Intent(this, MainActivity::class.java) // fallback if no roles match
+                    }
+                    startActivity(intent)
+                }else {
                     // Document n'existe pas
                 }
 

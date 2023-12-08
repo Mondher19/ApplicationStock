@@ -9,17 +9,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
-import com.example.nomadis.Worker.LocationWorker
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity(java: Class<MainActivity>) : AppCompatActivity() {
 
 
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -35,27 +31,14 @@ class MainActivity : AppCompatActivity() {
         // Find the BottomNavigationView by its ID
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
-        // Check if the worker is already scheduled
-        val workQuery = WorkManager.getInstance(this).getWorkInfosByTag("locationWorker")
-        val workList = workQuery.get()
-        var isWorkerScheduled = false
 
-        for (workInfo in workList) {
-            val state = workInfo.state
-            if (state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED) {
-                isWorkerScheduled = true
-                break
-            }
-        }
 
-        if (!isWorkerScheduled) {
-            // Schedule the worker
-            val workRequest = PeriodicWorkRequestBuilder<LocationWorker>(15, TimeUnit.MINUTES)
-                .addTag("locationWorker")
-                .build()
-            WorkManager.getInstance(this).enqueue(workRequest)
-        }
+
+
+
         Log.d("MainActivity", "onCreate called, checking permissions")
+
+
 
         // Set the listener for the bottom navigation view
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
@@ -63,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
 
                 R.id.home -> {
-                    changeFragment(FactureVendeurFragment(), "ClientFragment")
+                    changeFragment(EspaceVendeurFragment(), "ClientFragment")
                     return@setOnNavigationItemSelectedListener true
                 }
 

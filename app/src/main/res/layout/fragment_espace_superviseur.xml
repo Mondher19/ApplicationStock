@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.staff.EspaceSuperviseurFragment">
+
+
+    <LinearLayout
+
+
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:background="#EAEAEA"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="380dp"
+            android:layout_height="651dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:background="#E2FFFFFF"
+            android:backgroundTint="#E2FFFFFF"
+            android:backgroundTintMode="add"
+            app:cardBackgroundColor="#E2FFFFFF"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="30dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="98dp"
+                android:layout_height="83dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:elevation="50dp"
+                android:fadingEdgeLength="20dp"
+                android:foregroundGravity="center_vertical|center"
+                app:srcCompat="@drawable/avatarv5" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="352dp"
+                android:layout_height="467dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="35dp"
+                android:elevation="30dp"
+                android:foregroundGravity="center_vertical|center"
+                app:cardBackgroundColor="#5FA0D9"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="30dp"
+                app:cardMaxElevation="30dp">
+
+                <TextView
+                    android:id="@+id/Register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="#EAEAEA"
+                    android:fontFamily="@font/robotoo"
+                    android:gravity="start"
+                    android:includeFontPadding="false"
+                    android:text="  Espace Superviseur "
+                    android:textColor="#1D1E26"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/Consulterfacturebtn"
+
+                    android:layout_width="307dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="130dp"
+                    app:cardBackgroundColor="#EAEAEA"
+                    app:cardCornerRadius="30dp"
+                    app:cardElevation="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageView142"
+                        android:layout_width="103dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginEnd="200dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:src="@drawable/facv4" />
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotoo"
+                        android:shadowColor="#1D1E26"
+                        android:text="Gestion Facture"
+                        android:textColor="#1D1E26"
+                        android:textSize="18sp" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/ConsulterClientbtn"
+
+                    android:layout_width="307dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="290dp"
+                    app:cardBackgroundColor="#EAEAEA"
+                    app:cardCornerRadius="30dp"
+                    app:cardElevation="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageView14"
+                        android:layout_width="103dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginEnd="200dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:src="@drawable/clientv10" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotoo"
+                        android:shadowColor="#1D1E26"
+                        android:text="Gestion Client"
+                        android:textColor="#1D1E26"
+                        android:textSize="18sp" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/consulterstockbtn"
+
+                    android:layout_width="307dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="370dp"
+                    app:cardBackgroundColor="#EAEAEA"
+                    app:cardCornerRadius="30dp"
+                    app:cardElevation="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageView13"
+                        android:layout_width="103dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginEnd="200dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:src="@drawable/carton" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotoo"
+                        android:text="Gestion Stock"
+                        android:textColor="#1D1E26"
+                        android:textSize="18sp" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/consultervendeurbtn"
+
+                    android:layout_width="307dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="210dp"
+                    android:background="#EAEAEA"
+                    app:cardBackgroundColor="#EAEAEA"
+                    app:cardCornerRadius="30dp"
+                    app:cardElevation="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageView11"
+                        android:layout_width="103dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginEnd="200dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:src="@drawable/vendeurv4" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotoo"
+                        android:text="Gestion Vendeur"
+                        android:textColor="#1D1E26"
+                        android:textSize="18sp" />
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

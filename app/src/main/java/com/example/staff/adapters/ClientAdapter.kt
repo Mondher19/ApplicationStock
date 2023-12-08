@@ -45,8 +45,10 @@ class ClientAdapter (private var mList: List<Client>) : RecyclerView.Adapter<Cli
 
         // sets the text to the textview from our itemHolder class
         holder.nomclient.text = "Nom : " + ItemsViewModel.name
-        holder.email.text = "Email : " + ItemsViewModel.email
-        holder.telephone.text = "Numero Telephone : " + ItemsViewModel.numeroTel
+        holder.email.text = "email : " + ItemsViewModel.email
+        holder.telephone.text = "Numero Tel : " + ItemsViewModel.numeroTel
+        holder.Adresse.text = "Adresse : " + ItemsViewModel.adresse
+        holder.Mat_fiscale.text = "Matricule Fiscale : " + ItemsViewModel.Mat_fiscale
 
 
         holder.dotsbtn.setOnClickListener { view ->
@@ -67,7 +69,8 @@ class ClientAdapter (private var mList: List<Client>) : RecyclerView.Adapter<Cli
                         bundle.putString("Client_telephone", ItemsViewModel.numeroTel)
                         bundle.putString("Client_credit", ItemsViewModel.credit.toString())
                         bundle.putString("Client_location", ItemsViewModel.location.toString())
-
+                        bundle.putString("Client_Adresse", ItemsViewModel.adresse)
+                        bundle.putString("Client_Mat_fiscale", ItemsViewModel.Mat_fiscale)
 
                         fragment.arguments = bundle
 
@@ -141,6 +144,8 @@ class ClientAdapter (private var mList: List<Client>) : RecyclerView.Adapter<Cli
         val email: TextView = itemView.findViewById(R.id.emailclient)
         val telephone: TextView = itemView.findViewById(R.id.numtelclient)
         val dotsbtn: ImageButton = itemView.findViewById(R.id.menuButton)
+        val Adresse: TextView = itemView.findViewById(R.id.Adresselclient)
+        val Mat_fiscale: TextView = itemView.findViewById(R.id.Matlclient)
 
 
 

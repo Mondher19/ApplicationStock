@@ -127,6 +127,7 @@
                 app:boxCornerRadiusTopStart="10dp"
                 app:boxStrokeColor="#D9DEE1"
                 app:errorEnabled="true"
+                app:endIconMode="password_toggle"
                 app:helperTextTextColor="#D9DEE1"
                 app:hintTextColor="#D9DEE1"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.staff.model.Clientadd
 import com.example.staff.model.Location
@@ -53,14 +54,17 @@ class AjouterClient : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_ajouter_client, container, false)
 
-        val backtbtn: ImageView = view.findViewById(R.id.backtn9)
-        val btnSelectLocation: Button = view.findViewById(R.id.btnSelectLocation)
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
+
+
+    //    val btnSelectLocation: Button = view.findViewById(R.id.btnSelectLocation)
 
         val addbtn: Button = view.findViewById(R.id.Ajouterclientbtn)
         val FullName: EditText = view.findViewById(R.id.Nomcompletid)
         val EmailAdress: EditText = view.findViewById(R.id.Adressemailid)
         val Mobile: EditText = view.findViewById(R.id.Numtelid)
-        val creditSpinner: Spinner = view.findViewById(R.id.CreditSpinner)
+        val Adresse: EditText = view.findViewById(R.id.Adressesid)
+        val Mat_fiscale: EditText = view.findViewById(R.id.mat_fiscaleid)
 
         val creditOptions = arrayOf("Oui", "Non")
 
@@ -70,7 +74,7 @@ class AjouterClient : Fragment() {
             creditOptions
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        creditSpinner.adapter = adapter
+    //    creditSpinner.adapter = adapter
 
 
 
@@ -84,9 +88,20 @@ class AjouterClient : Fragment() {
             }
         }
 
+        val sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
+        val userRoleFromShared = sharedPreferences.getString("role", null)
+
         if (backtbtn != null) {
             backtbtn.setOnClickListener {
-                val fragment = ClientFragment()
+                val fragment: Fragment
+                if (userRoleFromShared == "Magazinier") {
+                    fragment = EspaceMagazinierFragment()
+                } else if ( userRoleFromShared == "Superviseur")
+                    fragment = EspaceSuperviseurFragment()
+                else {
+                    fragment = EspaceVendeurFragment()
+                }
+
                 val bundle = Bundle()
                 fragment.arguments = bundle
                 val fragmentManager = requireActivity().supportFragmentManager
@@ -97,55 +112,81 @@ class AjouterClient : Fragment() {
             }
         }
 
-        fun getCreditBoolean(): Boolean {
-            val selectedCreditOption = creditSpinner.selectedItem.toString()
-            Log.d("DEBUG_TAG", "Selected Credit Option: $selectedCreditOption")
 
-            return when (selectedCreditOption) {
-                "Oui" -> true
-                else -> false  // This will handle the "Non" case and any unexpected values
-            }
-        }
 
-        btnSelectLocation.setOnClickListener {
-            val intent = Intent(requireContext(), SelectLocationActivity::class.java)
-            locationResultLauncher.launch(intent)
-        }
 
 
 
         addbtn.setOnClickListener {
 
-
-            val creditBoolean = getCreditBoolean()
-            Log.d("DEBUG_TAG", "Credit Boolean Value: $creditBoolean") // This will log the boolean representation
-
-            val location = if (selectedLatitude != null && selectedLongitude != null) {
-                Location(latitude = selectedLatitude!!, longitude = selectedLongitude!!)
-            } else {
-                null
+            // Basic empty checks
+            if (FullName.text.toString().isEmpty()) {
+                Toast.makeText(context, "Le nom complet est obligatoire", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
 
 
-            val newClient = Clientadd(
-                name = FullName.text.toString(),
-                numeroTel = Mobile.text.toString(),
-                email = EmailAdress.text.toString(),
-                credit = creditBoolean, // Default value or fetch from a UI element
-                qrCode = null,  // Add a QR code if available or leave as null
-                location = location
-            )
 
-            ApiHelper().addClientToApi(newClient) {
-                val message = "Client Ajouter !!"
-                val builder = AlertDialog.Builder(context)
+
+
+
+
+           // val location = Location(latitude = selectedLatitude!!, longitude = selectedLongitude!!)
+
+            if (Mobile.text.toString().isEmpty() && EmailAdress.text.toString().isEmpty()) {
+                Mobile.setText("0000000000")
+                EmailAdress.setText("test@gmail.com")
+
+            }
+
+
+                // a changer location ici
+                val newClient = Clientadd(
+                    name = FullName.text.toString(),
+                    numeroTel = Mobile.text.toString(),
+                    email = EmailAdress.text.toString(),
+                    credit = true,
+                    qrCode = null,
+                    location = null,
+                     adresse=  Adresse.text.toString(),
+                    Mat_fiscale= Mat_fiscale.text.toString(),
+                )
+
+
+
+            fun showSuccessDialog(message: String) {
+                val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage(message)
                 builder.setPositiveButton("OK") { dialog, _ ->
                     dialog.dismiss()
+                    // Navigate to ProduitFragment using FragmentManager
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.switchfragment, Client_Fragment_vendeur())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
                 }
                 builder.show()
             }
+
+            fun showErrorDialog(message: String) {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage(message)
+                builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                builder.show()
+            }
+
+            ApiHelper().addClientToApi(
+                newClient,
+                successCallback = {
+                    // On success, show success dialog and navigate to ProduitFragment
+                    showSuccessDialog("✅ Le Client a été ajouté avec succès.")
+                },
+                errorCallback = { errorMsg ->
+                    // On error, show error dialog
+                    showErrorDialog("❌ Échec de l'ajout du client.")
+                }
+            )
         }
 
 
@@ -153,7 +194,9 @@ class AjouterClient : Fragment() {
         return view
     }
 
-
+    fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
 
     companion object {
         /**

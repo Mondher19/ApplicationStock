@@ -107,9 +107,9 @@ class MapsFragmentAdmin : Fragment(), GoogleMap.OnMarkerClickListener {
                 val longitude = document.getDouble("longitude")
                 val number = document.getString("number")
                 val name = document.getString("name")
-                val role = document.getBoolean("role")
+                val role = document.getString("role")
 
-                if (role == true) {
+                if (role == "Vendeur" ) {
                     val bitmap = BitmapFactory.decodeResource(resources, R.drawable.camion)
                     val scaledWidth = 100
                     val scaledHeight = 100

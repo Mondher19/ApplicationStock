@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.staff.model.Clientadd
 import com.example.staff.model.Location
@@ -57,14 +58,15 @@ class ModifierClient : Fragment() {
         var view = inflater.inflate(R.layout.fragment_modifier_client, container, false)
 
 
-        val backtbtn: ImageView = view.findViewById(R.id.backtn9)
-        val btnSelectLocation: Button = view.findViewById(R.id.btnSelectLocation)
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
+
         val addbtn: Button = view.findViewById(R.id.Modifierclientbtn)
         val FullName: EditText = view.findViewById(R.id.Nomcompletid)
         val EmailAdress: EditText = view.findViewById(R.id.Adressemailid)
         val Mobile: EditText = view.findViewById(R.id.Numtelid)
-        val creditSpinner: Spinner = view.findViewById(R.id.CreditSpinner)
 
+        val Adresse: EditText = view.findViewById(R.id.Adressesid)
+        val Mat_fiscale: EditText = view.findViewById(R.id.mat_fiscaleid)
 
 
         //   val role: EditText = view.findViewById(R.id.role)
@@ -88,8 +90,8 @@ class ModifierClient : Fragment() {
         val nomcomplet = arguments?.getString("Client_Nom")
         val adresseemail = arguments?.getString("Client_email")
         val mobile = arguments?.getString("Client_telephone")
-        val credit = arguments?.getString("Client_credit")
-        val location = arguments?.getString("Client_location")
+        val adresse = arguments?.getString("Client_Adresse")
+        val mat_fiscale = arguments?.getString("Client_Mat_fiscale")
 
 
         val creditOptions = arrayOf("Oui", "Non")
@@ -98,8 +100,8 @@ class ModifierClient : Fragment() {
             android.R.layout.simple_spinner_item,
             creditOptions
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        creditSpinner.adapter = adapter
+
+
 
         // Set values to EditText fields
         nomcomplet?.let {
@@ -111,12 +113,15 @@ class ModifierClient : Fragment() {
         mobile?.let {
             Mobile.setText(it)
         }
+        adresse?.let {
+            Adresse.setText(it)
+        }
+        mat_fiscale?.let {
+            Mat_fiscale.setText(it)
+        }
 
         // Set Spinner value
-        credit?.let {
-            val spinnerPosition = adapter.getPosition(it)
-            creditSpinner.setSelection(spinnerPosition)
-        }
+
 
         val locationResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -127,20 +132,11 @@ class ModifierClient : Fragment() {
         }
 
 
-        btnSelectLocation.setOnClickListener {
-            val intent = Intent(requireContext(), SelectLocationActivity::class.java)
-            locationResultLauncher.launch(intent)
-        }
-
 
 
 
         addbtn.setOnClickListener {
 
-            val creditBoolean = when(creditSpinner.selectedItem.toString()) {
-                "Oui" -> true
-                else -> false
-            }
 
 
             val location = if (selectedLatitude != null && selectedLongitude != null) {
@@ -149,15 +145,29 @@ class ModifierClient : Fragment() {
                 null
             }
 
+            if (FullName.text.toString().isEmpty()) {
+                Toast.makeText(context, "Le nom complet est obligatoire", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
+            if (Mobile.text.toString().isEmpty() && EmailAdress.text.toString().isEmpty()) {
+                Mobile.setText("0000000000")
+                EmailAdress.setText("test@gmail.com")
+
+            }
+
 
 
             val modiferClient = Clientadd(
                 name = FullName.text.toString(),
                 numeroTel = Mobile.text.toString(),
                 email = EmailAdress.text.toString(),
-                credit = creditBoolean,
+                credit = true,
                 qrCode = null,
-                location = location
+                location = location,
+                adresse =  Adresse.text.toString(),
+                Mat_fiscale= Mat_fiscale.text.toString()
             )
 
 

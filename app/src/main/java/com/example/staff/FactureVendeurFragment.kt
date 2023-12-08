@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.staff.adapters.FactureAdapter
 import com.example.staff.model.Journal
 import com.example.staff.service.ApiHelper
+import java.text.SimpleDateFormat
+import java.time.OffsetDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -57,6 +63,20 @@ class FactureVendeurFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_facture_vendeur, container, false)
+
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
+        if (backtbtn != null) {
+            backtbtn.setOnClickListener {
+                val fragment = EspaceVendeurFragment()
+                val bundle = Bundle()
+                fragment.arguments = bundle
+                val fragmentManager = requireActivity().supportFragmentManager
+                fragmentManager.beginTransaction()
+                    .replace(R.id.switchfragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
 
         // Initialize the adapter with an empty list
         adapter = FactureAdapter(emptyList())
@@ -114,16 +134,30 @@ class FactureVendeurFragment : Fragment() {
 // Fetch data from the API using the vendor name from shared preferences
         if (userfullnamefromshared != null) {
             ApiHelper().getJournalByVendorName(userfullnamefromshared) { journals, error ->
-
                 requireActivity().runOnUiThread {
                     if (error != null) {
                         Log.e("API_RESULT", "Error received: $error")
                     } else {
                         journals?.let {
                             Log.d("API_RESULT", "Data received: $journals")
-                            // Assume mList is now of type MutableList<Journal> to keep things simple
+
+                            // Debug log before sorting
+                            Log.d("Before_Sorting", "$mList")
+
                             mList.clear()
-                            mList.addAll(journals)  // Use addAll to add the list of Journals
+                            val customFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH)
+
+                            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH)
+
+                            // Sort by date
+                            mList = journals.sortedByDescending {
+                                val dateString = dateFormat.format(it.date)
+                                ZonedDateTime.parse(dateString, customFormatter)
+                            } as MutableList<Journal>
+
+                            // Debug log after sorting
+                            Log.d("After_Sorting", "$mList")
+
                             adapter.setFilteredList(mList)
                         } ?: run {
                             Log.e("API_RESULT", "Received null journal list")
@@ -173,7 +207,7 @@ class FactureVendeurFragment : Fragment() {
 
     private fun filterByDate(selectedItem: String) {
         val now = Calendar.getInstance()
-        val filteredList: List<Journal> = when (selectedItem) {
+        var filteredList: List<Journal> = when (selectedItem) {
             "Aujourdhui" -> {
                 mList.filter {
                     val journalDate = Calendar.getInstance()
@@ -199,15 +233,25 @@ class FactureVendeurFragment : Fragment() {
                 }
             }
             else -> mList
+        }.sortedByDescending { it.date.time }  // Sort by date and time in descending order
+
+        // Reverse the list only if selectedItem is "Aujourdhui"
+
+
+        if (filteredList.isNotEmpty()) {
+            // Updating the adapter with the filtered list (reversed or not, depending on the condition).
+            adapter.setFilteredList(filteredList)
+        } else {
+            // Handling the case where there is no journal in the filtered list.
+            adapter.setFilteredList(emptyList())
         }
-        adapter.setFilteredList(filteredList)
     }
 
     private fun filter(text: String?) {
         val filteredList: List<Journal> = if (text.isNullOrEmpty()) {
             mList // no filter, return the original list
         } else {
-            mList.filter { it.vendeurName.contains(text, ignoreCase = true) } // filter the list based on text
+            mList.filter { it.clientName.contains(text, ignoreCase = true) } // filter the list based on text
         }
         adapter.setFilteredList(filteredList) // assign the filtered list to the adapter
     }

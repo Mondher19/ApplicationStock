@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiHelper() {
 
-    private val BASE_URL = "http://10.0.2.2:9090"
+    private val BASE_URL = "https://transportback.onrender.com/"
 
     private val apiService = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -159,35 +159,70 @@ class ApiHelper() {
     }
 
 
+    fun getVendeurByVendorName(vendorName: String, callback: (List<Vendeur>?, String?) -> Unit) {
+        Log.d("API_CALL", "Api call initiated for vendorName: $vendorName")  // Log when the call starts
 
-    fun addClientToApi(clientadd: Clientadd, callback: () -> Unit) {
-        val callAdd = apiService.addclient(clientadd)
-        callAdd.enqueue(object : Callback<Clientadd> {
-            override fun onResponse(call: Call<Clientadd>, response: Response<Clientadd>) {
+        val call = apiService.getvendeurByVendorName(vendorName)  // Make sure your apiService function also returns Call<List<Journal>>
+
+        call.enqueue(object : Callback<List<Vendeur>> {
+            override fun onResponse(call: Call<List<Vendeur>>, response: Response<List<Vendeur>>) {
                 if (response.isSuccessful) {
-                    callback()
+                    Log.d("API_CALL", "Api call successful")  // Log for successful response
+
+                    response.body()?.let { journalList ->
+                        Log.d("API_CALL", "Received journals: $journalList")  // Log the data received
+                        callback(journalList, null)
+                    } ?: run {
+                        Log.e("API_CALL", "Received null body in API response")  // Log for null body
+                        callback(null, "Received null body in API response")
+                    }
+                } else {
+                    val error = "Api call unsuccessful: ${response.errorBody()?.string()}"
+                    Log.e("API_CALL", error)  // Log the unsuccessful response
+                    callback(null, error)
                 }
             }
 
-            override fun onFailure(call: Call<Clientadd>, t: Throwable) {
-                // handle API call failure here
+            override fun onFailure(call: Call<List<Vendeur>>, t: Throwable) {
+                val error = "Api call failed: ${t.message}"
+                Log.e("API_CALL", error)  // Log for failure
+                callback(null, error)
             }
         })
     }
 
-    fun addFactureToApi(facture: addFacture, callback: (Result<addFacture>) -> Unit) {
+
+    fun addClientToApi(clientadd: Clientadd, successCallback: () -> Unit, errorCallback: (String) -> Unit) {
+        val callAdd = apiService.addclient(clientadd)
+        callAdd.enqueue(object : Callback<Clientadd> {
+            override fun onResponse(call: Call<Clientadd>, response: Response<Clientadd>) {
+                if (response.isSuccessful) {
+                    successCallback()
+                } else {
+                    val errorMsg = response.errorBody()?.string() ?: "Unknown Error"
+                    errorCallback(errorMsg)
+                }
+            }
+
+            override fun onFailure(call: Call<Clientadd>, t: Throwable) {
+                errorCallback(t.localizedMessage ?: "Network error")
+            }
+        })
+    }
+    fun addFactureToApi(facture: addFacture, callback: (Result<addFacture>, String) -> Unit) {
         val callAdd = apiService.addfacture(facture)
         callAdd.enqueue(object : Callback<addFacture> {
             override fun onResponse(call: Call<addFacture>, response: Response<addFacture>) {
                 if (response.isSuccessful) {
-                    callback(Result.Success(response.body()!!))
+                    callback(Result.Success(response.body()!!), "Client added successfully")
                 } else {
-                    callback(Result.Error(Exception("API response error: ${response.errorBody()?.string()}")))
+                    val errorMsg = response.errorBody()?.string() ?: "Unknown error"
+                    callback(Result.Error(Exception("API response error: $errorMsg")), errorMsg)
                 }
             }
 
             override fun onFailure(call: Call<addFacture>, t: Throwable) {
-                callback(Result.Error(t))
+                callback(Result.Error(t), t.message ?: "Network error")
             }
         })
     }
@@ -259,23 +294,19 @@ class ApiHelper() {
 
 
 
+    suspend fun Allocateproducts(vendeurId: String, productAllocations: List<products>): Response<List<products>> {
+        val body = ProductAllocationBody(productAllocations)
 
-
-    fun addproduitToApi(produitadd: Produitadd, callback: () -> Unit) {
-        val callAdd = apiService.addproduit(produitadd)
-        callAdd.enqueue(object : Callback<Produitadd> {
-            override fun onResponse(call: Call<Produitadd>, response: Response<Produitadd>) {
-                if (response.isSuccessful) {
-                    callback()
-                }
-            }
-
-            override fun onFailure(call: Call<Produitadd>, t: Throwable) {
-                // handle API call failure here
-            }
-        })
+        return apiService.allocateproducts(vendeurId, body)
     }
 
+    suspend fun addproduitToApi(produitadd: Produitadd): Response<Produitadd>? {
+        return try {
+            apiService.addproduit(produitadd)
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     fun updateProduitToApi(productId: String, produitToUpdate: Produitadd, callback: () -> Unit) {
         val callUpdate = apiService.updateproduit(productId, produitToUpdate)
@@ -313,26 +344,43 @@ class ApiHelper() {
         })
     }
 
-    fun Allocateproducts(vendeurId: String, productAllocations: List<products>, callback: () -> Unit) {
 
-        val body = ProductAllocationBody(productAllocations)
-
-        Log.d("API_CALL", "Vendeur ID: $vendeurId")
-        Log.d("API_CALL", "Product Allocations: $body")
-
-        val callUpdate = apiService.allocateproducts(vendeurId, body)
-        callUpdate.enqueue(object : Callback<List<products>> {
-            override fun onResponse(call: Call<List<products>>, response: Response<List<products>>) {
+    fun updateVendeurCredit(vendeurId: String, creditToAdd: Float, callback: () -> Unit) {
+        val callUpdate = apiService.updateVendeur(vendeurId, mapOf("credit" to creditToAdd))
+        callUpdate.enqueue(object : Callback<Vendeur> {
+            override fun onResponse(call: Call<Vendeur>, response: Response<Vendeur>) {
                 if (response.isSuccessful) {
                     callback()
+                } else {
+                    // Handle the case where the response is not successful, log the error message or inform the user
+                    Log.e("API_CALL", "Failed to update Vendeur: ${response.errorBody()?.string()}")
                 }
             }
 
-            override fun onFailure(call: Call<List<products>>, t: Throwable) {
-                // handle API call failure here
+            override fun onFailure(call: Call<Vendeur>, t: Throwable) {
+                // Handle API call failure here, log the error message or inform the user
+                Log.e("API_CALL", "Failed to call API", t)
             }
         })
     }
+
+    fun resetVendeurCredit(vendeurId: String, callback: () -> Unit) {
+        val callUpdate = apiService.resetVendeurCredit(vendeurId)
+        callUpdate.enqueue(object : Callback<Vendeur> {
+            override fun onResponse(call: Call<Vendeur>, response: Response<Vendeur>) {
+                if (response.isSuccessful) {
+                    callback()
+                } else {
+                    Log.e("API_CALL", "Failed to reset Vendeur credit: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Vendeur>, t: Throwable) {
+                Log.e("API_CALL", "Failed to call API", t)
+            }
+        })
+    }
+
 
     fun updateClientToApi(clientId: String, clientToUpdate: Clientadd, callback: () -> Unit) {
         val callUpdate = apiService.updateclient(clientId, clientToUpdate)

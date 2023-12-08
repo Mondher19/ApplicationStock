@@ -18,6 +18,7 @@ import com.example.staff.adapters.ClientAdapter
 import com.example.staff.adapters.ProduitAdapter
 import com.example.staff.model.Produit
 import com.example.staff.service.ApiHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,12 +56,33 @@ class ProduitFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_produit, container, false)
 
 
+        val backtbtn: ImageView = view.findViewById(R.id.imageView12)
+        val sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
+        val userRoleFromShared = sharedPreferences.getString("role", null)
+
+        val backBtn: ImageView = view.findViewById(R.id.imageView12)
+        if (backBtn != null) {
+            backBtn.setOnClickListener {
+                val fragment: Fragment
+                if (userRoleFromShared == "Magazinier") {
+                    fragment = EspaceMagazinierFragment()
+                } else {
+                    fragment = EspaceSuperviseurFragment()
+                }
+
+                val bundle = Bundle()
+                fragment.arguments = bundle
+                val fragmentManager = requireActivity().supportFragmentManager
+                fragmentManager.beginTransaction()
+                    .replace(R.id.switchfragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
 
 
 
-
-
-        val Addbtn: Button = view.findViewById(R.id.addproduitbtnid)
+        val Addbtn: FloatingActionButton = view.findViewById(R.id.addproduitbtnid)
 
         Addbtn.setOnClickListener {
             val fragment = AjouterProduit()
@@ -100,6 +122,9 @@ class ProduitFragment : Fragment() {
             requireActivity().runOnUiThread {
                 // initialize mList with the fetched data
                 mList = produits
+
+                mList = mList.asReversed()
+
                 // update the adapter with the fetched data
                 adapter = ProduitAdapter(mList)
                 if (recyclerview != null) {

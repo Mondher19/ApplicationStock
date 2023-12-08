@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="#F0F0F0">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_background"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Nom:"
+            android:textColor="#333333"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/validationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Validation:"
+            android:textColor="#555555"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/stockHeaderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Stock :"
+            android:textColor="#555555"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/stockLayout"
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <!-- Your inner layout here -->
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/credit"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:text="Credit :"
+            android:textColor="#555555"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/validerstockvendeur2"
+                android:layout_width="23dp"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="end"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+
+
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="#005FA0D9"
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/robotoo"
+                android:paddingLeft="0dp"
+                android:src="@drawable/validatefinal"
+                android:text="Valider"
+                android:textColor="@color/colorOnPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:iconPadding="0dp"
+                app:iconSize="18sp"
+                app:iconTint="@color/colorPrimary"
+                app:iconTintMode="add" />
+
+            <ImageButton
+                android:id="@+id/addCreditButton"
+                android:layout_width="66dp"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+
+                android:src="@drawable/editerfinal" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

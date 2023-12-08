@@ -23,7 +23,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/switchfragment"
-                android:name="com.example.staff.MapsFragmentAdmin"
+                android:name="com.example.staff.EspaceSuperviseurFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -38,14 +38,14 @@
                 android:foregroundGravity="bottom"
                 android:gravity="bottom|center"
                 app:addElevationShadow="false"
-                app:backgroundTint="#00F4F4F4"
+                app:backgroundTint="#00F3F3F3"
                 app:buttonGravity="center_vertical|bottom"
                 app:elevation="20dp"
                 app:fabCradleMargin="10dp"
                 app:fabCradleRoundedCornerRadius="10dp"
                 app:fabCradleVerticalOffset="10dp"
                 app:maxButtonHeight="50dp"
-                app:subtitleTextColor="#00F6F6F6"
+                app:subtitleTextColor="#00FBF8F8"
                 app:titleMarginBottom="0dp"
                 app:titleTextColor="#00E4E4E4"
                 tools:ignore="BottomAppBar,MissingConstraints">
@@ -59,10 +59,11 @@
                     android:layout_marginRight="0dp"
                     android:layout_marginBottom="10dp"
                     android:background="@color/colorPrimary"
+                    android:backgroundTintMode="add"
                     android:foregroundGravity="bottom|center"
                     android:hapticFeedbackEnabled="false"
                     android:minHeight="50dp"
-                    app:backgroundTint="#ECECEB"
+                    app:backgroundTint="#F6F6F6"
                     app:elevation="20dp"
                     app:itemIconTint="#5FA0D9"
                     app:itemRippleColor="#5FA0D9"

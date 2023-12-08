@@ -72,8 +72,8 @@ class SettingsFragment : Fragment() {
 
         logoutCard.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("Are you sure you want to logout?")
-            builder.setPositiveButton("Yes") { _, _ ->
+            builder.setMessage("Êtes-vous sûr de vouloir vous déconnecter ?")
+            builder.setPositiveButton("Oui") { _, _ ->
                 // user clicked "Yes", logout
                 val sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Activity.MODE_PRIVATE)
                 sharedPreferences.edit().clear().apply()

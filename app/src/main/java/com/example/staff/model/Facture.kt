@@ -32,5 +32,6 @@ data class addFacture(
     val products: List<ProductAllocation>, // formulaire
     val credit: Boolean, // formulaire
     val nomVendeur: String,
+    val allowFreeProduct: Boolean,
 )
 

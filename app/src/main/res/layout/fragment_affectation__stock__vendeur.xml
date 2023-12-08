@@ -5,143 +5,188 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="#5FA0D9"
+    android:background="#4A8DB7"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context="com.example.staff.Affectation_Stock_Vendeur">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="348dp"
-        android:layout_height="617dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:background="#EAEAEA"
-        android:backgroundTint="#EAEAEA"
-        android:elevation="20dp"
-        android:foregroundGravity="center_vertical|center"
-        app:cardCornerRadius="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginTop="20dp"
 
-    app:cardElevation="20dp"
-        app:cardMaxElevation="20dp">
+        android:background="#4A8DB7"
+        android:orientation="horizontal"
+        app:cardCornerRadius="20dp">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:background="#5FA0D9"
             android:fontFamily="@font/robotoo"
-            android:gravity="start"
+            android:gravity="center"
             android:text="Affectation Stock"
-            android:textColor="#ADFDFDFD"
-            android:textSize="28sp"
+            android:textColor="#000000"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="78dp"
+            android:layout_height="48dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="0dp"
+            android:foregroundGravity="left"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:src="@drawable/ic_baseline_arrow_back_24" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="353dp"
+        android:layout_height="598dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/stroke"
+
+
+        android:backgroundTint="#FFF"
+        android:elevation="20dp"
+        android:foregroundGravity="center_vertical|center"
+        app:cardCornerRadius="20dp"
+
+        app:cardElevation="20dp"
+        app:cardMaxElevation="20dp">
+
+
         <androidx.cardview.widget.CardView
-            android:layout_width="315dp"
-            android:layout_height="500dp"
+            android:layout_width="333dp"
+            android:layout_height="553dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="0dp"
             android:background="@drawable/stroke"
 
-            android:backgroundTint="#F8FFFFFF"
+            android:backgroundTint="#A1E1FA"
             app:cardCornerRadius="40dp"
             app:cardElevation="20dp"
             app:cardPreventCornerOverlap="true">
 
-            <TextView
-                android:layout_width="149dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|start"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="190dp"
-                android:fontFamily="@font/robotoo"
-                android:foregroundGravity="center"
-                android:gravity="center"
-                android:text="Choisir un vendeur"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="313dp"
+                android:layout_height="172dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <TextView
+                    android:layout_width="149dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="50dp"
+                    android:fontFamily="@font/robotoo"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="Choisir un vendeur"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/vendeurSpinner"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="20dp" />
+
+                <LinearLayout
+                    android:layout_width="292dp"
+                    android:layout_height="73dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/productSpinner"
+                        android:layout_width="139dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:scrollbarSize="10dp" />
+
+                    <EditText
+                        android:id="@+id/quantityEditText"
+                        android:layout_width="71dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/robotoo"
+                        android:hint=""
+                        android:inputType="number" />
+
+                    <ImageButton
+                        android:id="@+id/addProductBtn"
+                        android:layout_width="37dp"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#00FFFFFF"
+                        android:backgroundTint="#DDD4D4"
+                        android:elevation="30dp"
+                        android:src="@drawable/addv4"
+                        android:text="Add Product Row" />
+
+                    <ImageButton
+                        android:id="@+id/subtractProductBtn"
+                        android:layout_width="39dp"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#00FFFFFF"
+                        android:backgroundTint="#DDD4D4"
+                        android:elevation="30dp"
+                        android:src="@drawable/soustractionv4"
+                        android:text="Subtract Product Row" />
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/submitBtn"
                 android:layout_width="162dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="210dp"
+                android:layout_marginTop="240dp"
 
                 android:backgroundTint="#AD051C24"
-                android:text="Valider"
+                android:text="Affecter"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF" />
 
-            <Spinner
-                android:id="@+id/vendeurSpinner"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="140dp" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="312dp"
+                android:layout_height="261dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="220dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="20dp">
 
-            <LinearLayout
-                android:layout_width="292dp"
-                android:layout_height="73dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="80dp"
-                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/productListContainer"
+                    android:layout_width="293dp"
+                    android:layout_height="230dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="0dp"
+                    android:background="#FFFFFF"
+                    android:backgroundTint="#FFFFFF"
+                    android:orientation="vertical">
 
-                <Spinner
-                    android:id="@+id/productSpinner"
-                    android:layout_width="139dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:scrollbarSize="10dp" />
-
-                <EditText
-                    android:id="@+id/quantityEditText"
-                    android:layout_width="71dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/robotoo"
-                    android:hint=""
-                    android:inputType="number" />
-
-                <ImageButton
-                    android:id="@+id/addProductBtn"
-                    android:layout_width="37dp"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#00FFFFFF"
-                    android:backgroundTint="#DDD4D4"
-                    android:elevation="30dp"
-                    android:src="@drawable/addv4"
-                    android:text="Add Product Row" />
-
-                <ImageButton
-                    android:id="@+id/subtractProductBtn"
-                    android:layout_width="39dp"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#00FFFFFF"
-                    android:backgroundTint="#DDD4D4"
-                    android:elevation="30dp"
-                    android:src="@drawable/soustractionv4"
-                    android:text="Subtract Product Row" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/productListContainer"
-                android:layout_width="293dp"
-                android:layout_height="186dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="75dp"
-                android:orientation="vertical">
-
-            </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </androidx.cardview.widget.CardView>
 
